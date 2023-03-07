@@ -22,7 +22,9 @@ const HomePage = () => {
   }, [])
   
   return (
-    <div>HomePage</div>
+    <div>
+      <h1>Home Page</h1>
+    </div>
   )
 }
 

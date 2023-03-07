@@ -12,14 +12,12 @@ function App() {
   return (
     <BrowserRouter>
       
-        <div className="">
           <Routes>
 
-            <Route path='/'element={
-              <AuthGuard roles={[Role.ADMIN]}>
+            <Route path='/*'element={
+              // <AuthGuard roles={[Role.ADMIN, Role.MOD]}>
                 <User/>
-              </AuthGuard>
-            
+              // </AuthGuard> 
             } />
 
             <Route path='/login'element={<LoginPage/>} />
@@ -28,7 +26,6 @@ function App() {
             <Route path='/*'element={<NotFoundPage/>} />
           </Routes>
 
-        </div>
     </BrowserRouter>
   );
 }
