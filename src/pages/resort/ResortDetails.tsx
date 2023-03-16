@@ -13,7 +13,8 @@ import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
-import ResortImages from "../../component/resort/resortDetails/ResortImages";
+import ResortImages from "../../component/resort/resortDetails/images/ResortImages";
+import ResortLocation from "../../component/resort/resortDetails/ResortLocation";
 
 const ResortDetails = () => {
   const location = useLocation();
@@ -126,9 +127,7 @@ const ResortDetails = () => {
 
   const handleBanStatusChange = () => {
     let obj = resortDetails;
-    if (obj?.banned !== undefined) {
-        obj.banned = !obj?.banned;
-    }
+    if (obj?.banned !== undefined) obj.banned = !obj?.banned;
     setResortDetails(obj);
   };
 
@@ -165,7 +164,7 @@ const ResortDetails = () => {
       case 2:
         return (
           <>
-            
+            <ResortLocation locationDetails={resortDetails?.locationDetails}/>
           </>
         );
       default:

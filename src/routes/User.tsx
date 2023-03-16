@@ -8,6 +8,8 @@ import Resort from "../pages/resort/Resort";
 import Facility from "../pages/resort/Facility";
 import Category from "../pages/resort/Category";
 import ResortDetails from "../pages/resort/ResortDetails";
+import RoomType from "../pages/resort/room/RoomType";
+import RoomFacility from "../pages/resort/room/RoomFacility";
 
 const User = () => {
   return (
@@ -21,6 +23,8 @@ const User = () => {
             <Route path="/resorts" element={<Resort />} />
             <Route path="/resorts/facility" element={<Facility />} />
             <Route path="/resorts/category" element={<Category />} />
+            <Route path="/resorts/room/facility" element={<RoomFacility />} />
+            <Route path="/resorts/room/type" element={<RoomType />} />
             <Route path="/resorts/details" element={<ResortDetails />} />
           </Routes>
         </div>

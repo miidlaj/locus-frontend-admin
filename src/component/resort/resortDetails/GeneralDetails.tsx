@@ -188,11 +188,7 @@ const GeneralDetails = (props: PropsType) => {
     })
   }
   return (
-    <Grow
-      in={show}
-      style={{ transformOrigin: "0 0 0" }}
-      {...(show ? { timeout: 1000 } : {})}
-    >
+    
       <Grid container spacing={2} paddingTop={5}>
         <Grid item xs={6}>
           {/* Line Overview*/}
@@ -419,9 +415,18 @@ const GeneralDetails = (props: PropsType) => {
               <span className="font-bold">{resortDetails?.updatedTime}</span>
             </div>
           </div>
+
+          <div className="flex mt-5 items-center justify-between">
+            <div className="font-semibold inline-block font-mono whitespace-nowrap px-2 py-1 rounded text-white/75 bg-gray-900 rounded-2">
+              Image :{" "}
+            </div>
+            <div className="font-mono font-light text-gray-500 w-[28rem]">
+              <img src={resortDetails?.defaultImageLink} alt="Default" className="w-44 rounded-md" />
+            </div>
+          </div>
         </Grid>
       </Grid>
-    </Grow>
+  
   );
 };
 

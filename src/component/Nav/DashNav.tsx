@@ -1,14 +1,11 @@
 import React, { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import PersonIcon from "@mui/icons-material/Person";
 import { Email, DashboardCustomize } from "@mui/icons-material";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MainSmallIcon from "../common/MainSmallIcon";
 
 interface NavItemProps {
   to: string;
@@ -18,7 +15,7 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({ to, Icon, label }) => {
   const location = useLocation();
-  const isActive = location.pathname === to;
+  const isActive = location.pathname.includes(to);
   console.log(isActive);
 
   return (
@@ -43,11 +40,8 @@ const NavItem: React.FC<NavItemProps> = ({ to, Icon, label }) => {
 
 const DashNav = () => {
   const Menus = [
-    // { title: "Go to Home", icon: <MainSmallIcon className="w-10 h-auto hidden sm:flex"/>, link:"/"},
     { title: "Dashboard", icon: <DashboardCustomize />, link: "/dashboard" },
     { title: "Resort", icon: <ApartmentIcon />, link: "/resorts" },
-    // { title: "Profile", icon: <PersonIcon />, link: "/dashboard/profile" },
-    // { title: "Notification ", icon: <NotificationsIcon />, link: "/dashboard/notification" },
     { title: "Message", icon: <Email />, link: "/message" },
   ];
 

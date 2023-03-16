@@ -9,8 +9,6 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Button from "@mui/material/Button";
 
-import categoryService from "../../services/resort/category.service";
-
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
@@ -22,8 +20,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
+import roomTypeService from "../../../services/resort/room/roomType.service";
 
-const Category = () => {
+const RoomType = () => {
   type alertType = {
     show: boolean;
     message: string;
@@ -35,30 +34,28 @@ const Category = () => {
     type: "info",
   });
 
-  type categoryType = {
+  type roomType = {
     id: number;
     name: string;
-    description: string;
   };
-  const [categoryList, setCategoryList] = React.useState<categoryType[]>([]);
+  const [roomTypeList, setRoomTypeList] = React.useState<roomType[]>([]);
 
-  type categoryToBackend = {
+  type roomTypeToBackend = {
     name: string;
-    description: string;
   };
-  const [category, setCategory] = React.useState<categoryToBackend>();
+  const [roomType, setRoomType] = React.useState<roomTypeToBackend>();
 
   React.useEffect(() => {
-    categoryService
-      .getCategoryList()
+    roomTypeService
+      .getRoomTypeList()
       .then((response) => {
         const data = response.data;
-        setCategoryList(data);
+        setRoomTypeList(data);
       })
       .catch((error) => {
         setAlert({
           show: true,
-          message: "Cannot load Category Data",
+          message: "Cannot load Room Type Data",
           type: "error",
         });
       });
@@ -69,10 +66,6 @@ const Category = () => {
       .string()
       .min(3, "Minimum 3 letter required")
       .max(40, "Maximum letters allowed are 40"),
-    description: z
-      .string()
-      .min(3, "Minimum 3 letter required")
-      .max(150, "Maximum letters allowed are 150"),
   });
 
   type FormSchemaType = z.infer<typeof formSchema>;
@@ -87,22 +80,25 @@ const Category = () => {
   });
 
   const handleAddButton: SubmitHandler<FormSchemaType> = async (data) => {
-    setCategory({
+    setRoomType({
       name: data.name,
-      description: data.description,
     });
 
-    if (category !== undefined) {
-      await categoryService
-        .newCategory(category)
+    if (roomType !== undefined) {
+      await roomTypeService
+        .newRoomType(roomType)
         .then((response) => {
-          const newList = categoryList.concat(response.data);
-          setCategoryList(newList);
+          const newList = roomTypeList.concat(response.data);
+          setRoomTypeList(newList);
           setAlert({
             show: true,
-            message: "New Category Added.",
+            message: "New Room Type Added.",
             type: "success",
           });
+          reset({
+            name: "",
+            })
+
         })
         .catch((error) => {
           console.log(error);
@@ -116,9 +112,9 @@ const Category = () => {
     }
   };
 
-  const deleteHandler = async (category: categoryType) => {
-    await categoryService
-      .deleteCategory(category.id)
+  const deleteHandler = async (roomType: roomType) => {
+    await roomTypeService
+      .deleteRoomType(roomType.id)
       .then((response) => {
         setAlert({
           type: "success",
@@ -126,7 +122,7 @@ const Category = () => {
           message: response.data,
         });
         reset();
-        setCategoryList(categoryList.filter((x) => x.id !== category.id));
+        setRoomTypeList(roomTypeList.filter((x) => x.id !== roomType.id));
       })
       .catch((error) => {
         setAlert({
@@ -141,7 +137,7 @@ const Category = () => {
     <>
       <div className="flex-1 px-2 sm:px-0 min-h-screen">
         <div className="flex justify-between items-center">
-          <h3 className="text-3xl font-extralight text-white/50">Category</h3>
+          <h3 className="text-3xl font-extralight text-white/50">Room Type</h3>
         </div>
 
         {alert.show && (
@@ -184,28 +180,11 @@ const Category = () => {
             >
               <TextField
                 id="standard-basic"
-                label="Category"
+                label="Room Type"
                 error={errors.name && true}
                 variant="standard"
                 {...register("name")}
                 helperText={errors.name?.message}
-                InputLabelProps={{
-                  style: { color: "rgb(255 255 255 / 0.5)" },
-                }}
-                InputProps={{
-                  style: { color: "rgb(255 255 255)" },
-                }}
-              />
-
-              <TextField
-                id="standard-multiline-static"
-                label="Description"
-                error={errors.description && true}
-                multiline
-                rows={4}
-                variant="standard"
-                {...register("description")}
-                helperText={errors.description?.message}
                 InputLabelProps={{
                   style: { color: "rgb(255 255 255 / 0.5)" },
                 }}
@@ -236,7 +215,7 @@ const Category = () => {
           </div>
           <div className="w-1/2 p-5">
 
-          {categoryList.length === 0 && (
+          {roomTypeList.length === 0 && (
               <Accordion disabled>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -247,13 +226,13 @@ const Category = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  No Category
+                  No Room Types
                 </AccordionSummary>
                 
               </Accordion>
             )}
 
-            {categoryList.map((category, index) => (
+            {roomTypeList.map((roomType, index) => (
               <Accordion key={index}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -264,7 +243,7 @@ const Category = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography>{category.name}</Typography>
+                  <Typography>{roomType.name}</Typography>
                 </AccordionSummary>
                 <AccordionDetails
                   sx={{
@@ -273,10 +252,6 @@ const Category = () => {
                     paddingBottom: "40px",
                   }}
                 >
-                  <Typography>
-                    {category.description}
-                    <br />
-                  </Typography>
 
                   <div className="float-right bg-gray-900">
                     <Tooltip
@@ -288,7 +263,7 @@ const Category = () => {
                       <IconButton
                         aria-label="delete"
                         onClick={() => {
-                          deleteHandler(category);
+                          deleteHandler(roomType);
                         }}
                       >
                         <DeleteOutlineIcon className="text-white/60" />
@@ -305,4 +280,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default RoomType;

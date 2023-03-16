@@ -22,7 +22,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
-import { Stack } from "@mui/material";
 
 const Facility = () => {
   type alertType = {
@@ -126,6 +125,7 @@ const Facility = () => {
           show: true,
           message: response.data,
         });
+        reset();
         setFacilityList(facilityList.filter((x) => x.id !== facility.id));
       })
       .catch((error) => {
@@ -171,12 +171,13 @@ const Facility = () => {
           </Collapse>
         )}
 
-        <div className="flex justify-between mt-10 bg-gray-900/30 rounded-md">
+        <div className="flex justify-between mt-10 text-highlight bg-gray-900/30 rounded-md">
           <div className="w-1/2 pr-5 p-5">
             <Box
               component="form"
               sx={{
                 "& > :not(style)": { m: 1, width: "100%" },
+                '& .MuiInput-root': { borderBottom: "0.5px solid rgb(56 178 172) !important" },
               }}
               noValidate
               autoComplete="off"
@@ -192,7 +193,7 @@ const Facility = () => {
                   style: { color: "rgb(255 255 255 / 0.5)" },
                 }}
                 InputProps={{
-                  style: { color: "rgb(255 255 255 / 0.5)" },
+                  style: { color: "rgb(255 255 255)" },
                 }}
               />
 
@@ -205,8 +206,11 @@ const Facility = () => {
                 variant="standard"
                 {...register("description")}
                 helperText={errors.description?.message}
-                InputProps={{
+                InputLabelProps={{
                   style: { color: "rgb(255 255 255 / 0.5)" },
+                }}
+                InputProps={{
+                  style: { color: "rgb(255 255 255)" },
                 }}
               />
 
@@ -221,10 +225,7 @@ const Facility = () => {
                 <Button
                   color="error"
                   onClick={() => {
-                    reset({
-                      name: "",
-                      description: ""
-                      })
+                    reset();
                   }}
                   disabled={isSubmitting}
                 >

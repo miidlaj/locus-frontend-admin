@@ -9,8 +9,7 @@ import formatDate from "../../services/common/common.service";
 import { ResortStatusType } from "./ResortStatusType";
 import { MdCategory } from "react-icons/md";
 import { RiHomeGearFill } from "react-icons/ri";
-import Tooltip from "@mui/material/Tooltip";
-import Zoom from "@mui/material/Zoom";
+
 
 const Resort = () => {
   interface ResortType {
@@ -92,36 +91,67 @@ const Resort = () => {
         <div className="flex justify-between items-center">
           <h3 className="text-3xl font-extralight text-white/50">Resorts</h3>
           <div className="inline-flex items-center space-x-2">
+          
+
             {/* Category */}
-            <Tooltip
-              title={"Category"}
-              TransitionComponent={Zoom}
-              arrow
-              placement="bottom"
-            >
-              <Link
-                className="bg-gray-900 text-white/50 p-2 rounded-md hover:text-white smooth-hover"
-                to={"/resorts/category"}
+            <div className="dropdown dropdown-hover dropdown-bottom sm:dropdown-end font-mono">
+              <label tabIndex={0} className="">
+                <p className="bg-gray-900 text-white/50 p-2 rounded-md hover:text-white smooth-hover">
+                  <MdCategory className="h-6 w-6" />
+                </p>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
               >
-                <MdCategory className="h-6 w-6" />
-              </Link>
-            </Tooltip>
+                <li>
+                  <Link
+                    className="bg-gray-900 text-white/50 p-2 rounded-md hover:text-white smooth-hover"
+                    to={"/resorts/category"}
+                  >
+                    Resort Category
+                  </Link>
+                </li>
+                <li className="mt-1">
+                  <Link
+                    className="bg-gray-900 text-white/50 p-2 rounded-md hover:text-white smooth-hover"
+                    to={"/resorts/room/type"}
+                  >
+                    Room Type
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
             {/* Facility */}
-
-            <Tooltip
-              title={"Facility"}
-              TransitionComponent={Zoom}
-              arrow
-              placement="bottom"
-            >
-              <Link
-                className="bg-gray-900 text-white/50 p-2 rounded-md hover:text-white smooth-hover"
-                to={"/resorts/facility"}
+            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end font-mono">
+              <label tabIndex={0} className="">
+                <p className="bg-gray-900 text-white/50 p-2 rounded-md hover:text-white smooth-hover">
+                  <RiHomeGearFill className="h-6 w-6" />
+                </p>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
               >
-                <RiHomeGearFill className="h-6 w-6" />
-              </Link>
-            </Tooltip>
+                <li>
+                  <Link
+                    className="bg-gray-900 text-white/50 p-2 rounded-md hover:text-white smooth-hover"
+                    to={"/resorts/facility"}
+                  >
+                    Resort Facility
+                  </Link>
+                </li>
+                <li className="mt-1">
+                  <Link
+                    className="bg-gray-900 text-white/50 p-2 rounded-md hover:text-white smooth-hover"
+                    to={"/resorts/room/facility"}
+                  >
+                    Room Facility
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
             <span className="pl-10"></span>
 
@@ -194,43 +224,17 @@ const Resort = () => {
         )}
 
         <div className="mb-10 sm:mb-0 mt-10 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          <div className="group bg-gray-900/30 py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/40 hover:smooth-hover">
-            <Link
-              className="bg-gray-900/70 text-white/50 group-hover:text-white group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center"
-              to="/dashboard/resorts/new/0"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-10 w-10"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-            </Link>
-            <Link
-              className="text-white/50 group-hover:text-white group-hover:smooth-hover text-center"
-              to="/dashboard/resorts/new/0"
-            >
-              Add a Resort
-            </Link>
-          </div>
-
           {resortList.map((resort, index) => (
             <div
               key={index}
               className="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover"
-            onClick={() => {
-              navigate("/resorts/details" ,{ state: {
-                resortId: resort.resortId
-              } })
-            }}
+              onClick={() => {
+                navigate("/resorts/details", {
+                  state: {
+                    resortId: resort.resortId,
+                  },
+                });
+              }}
             >
               <img
                 className="w-20 h-20 object-cover object-center rounded-full"

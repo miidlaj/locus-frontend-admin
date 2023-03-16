@@ -1,4 +1,6 @@
 import React from "react";
+import { Image, ImageGroup } from "./fullscreen";
+import "./images.css"
 
 type ImageType = {
     id: number;
@@ -36,6 +38,20 @@ const ResortImages = (props: ResortImageProps) => {
           
         </div>
       </section>
+
+      {/* <div className="container">
+      <ImageGroup>
+        <ul className="images">
+          {
+          images !== undefined &&
+          images.map((image, index) => (
+            <li key={index}>
+              <Image src={image} alt="extra" />
+            </li>
+          ))}
+        </ul>
+      </ImageGroup>
+      </div> */}
     </>
   );
 };

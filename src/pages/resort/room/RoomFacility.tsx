@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Button from "@mui/material/Button";
 
-import categoryService from "../../services/resort/category.service";
 
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
@@ -22,8 +21,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
+import roomFacilityService from "../../../services/resort/room/roomFacility.service";
 
-const Category = () => {
+const RoomFacility = () => {
   type alertType = {
     show: boolean;
     message: string;
@@ -35,30 +35,30 @@ const Category = () => {
     type: "info",
   });
 
-  type categoryType = {
+  type facilityType = {
     id: number;
     name: string;
     description: string;
   };
-  const [categoryList, setCategoryList] = React.useState<categoryType[]>([]);
+  const [facilityList, setFacilityList] = React.useState<facilityType[]>([]);
 
-  type categoryToBackend = {
+  type facilityToBackend = {
     name: string;
     description: string;
   };
-  const [category, setCategory] = React.useState<categoryToBackend>();
+  const [facility, setFacility] = React.useState<facilityToBackend>();
 
   React.useEffect(() => {
-    categoryService
-      .getCategoryList()
+    roomFacilityService
+      .getFacilityList()
       .then((response) => {
         const data = response.data;
-        setCategoryList(data);
+        setFacilityList(data);
       })
       .catch((error) => {
         setAlert({
           show: true,
-          message: "Cannot load Category Data",
+          message: "Cannot load Facility Data",
           type: "error",
         });
       });
@@ -87,20 +87,20 @@ const Category = () => {
   });
 
   const handleAddButton: SubmitHandler<FormSchemaType> = async (data) => {
-    setCategory({
+    setFacility({
       name: data.name,
       description: data.description,
     });
 
-    if (category !== undefined) {
-      await categoryService
-        .newCategory(category)
+    if (facility !== undefined) {
+      await roomFacilityService
+        .newFacility(facility)
         .then((response) => {
-          const newList = categoryList.concat(response.data);
-          setCategoryList(newList);
+          const newList = facilityList.concat(response.data);
+          setFacilityList(newList);
           setAlert({
             show: true,
-            message: "New Category Added.",
+            message: "New Facility Added.",
             type: "success",
           });
         })
@@ -116,9 +116,9 @@ const Category = () => {
     }
   };
 
-  const deleteHandler = async (category: categoryType) => {
-    await categoryService
-      .deleteCategory(category.id)
+  const deleteHandler = async (facility: facilityType) => {
+    await roomFacilityService
+      .deleteFacility(facility.id)
       .then((response) => {
         setAlert({
           type: "success",
@@ -126,7 +126,7 @@ const Category = () => {
           message: response.data,
         });
         reset();
-        setCategoryList(categoryList.filter((x) => x.id !== category.id));
+        setFacilityList(facilityList.filter((x) => x.id !== facility.id));
       })
       .catch((error) => {
         setAlert({
@@ -141,7 +141,7 @@ const Category = () => {
     <>
       <div className="flex-1 px-2 sm:px-0 min-h-screen">
         <div className="flex justify-between items-center">
-          <h3 className="text-3xl font-extralight text-white/50">Category</h3>
+          <h3 className="text-3xl font-extralight text-white/50">Room Facility</h3>
         </div>
 
         {alert.show && (
@@ -184,7 +184,7 @@ const Category = () => {
             >
               <TextField
                 id="standard-basic"
-                label="Category"
+                label="Facility"
                 error={errors.name && true}
                 variant="standard"
                 {...register("name")}
@@ -236,7 +236,7 @@ const Category = () => {
           </div>
           <div className="w-1/2 p-5">
 
-          {categoryList.length === 0 && (
+          {facilityList.length === 0 && (
               <Accordion disabled>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -247,13 +247,14 @@ const Category = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  No Category
+                  No Facility
                 </AccordionSummary>
                 
               </Accordion>
             )}
 
-            {categoryList.map((category, index) => (
+
+            {facilityList.map((facility, index) => (
               <Accordion key={index}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -264,7 +265,7 @@ const Category = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography>{category.name}</Typography>
+                  <Typography>{facility.name}</Typography>
                 </AccordionSummary>
                 <AccordionDetails
                   sx={{
@@ -274,7 +275,7 @@ const Category = () => {
                   }}
                 >
                   <Typography>
-                    {category.description}
+                    {facility.description}
                     <br />
                   </Typography>
 
@@ -288,7 +289,7 @@ const Category = () => {
                       <IconButton
                         aria-label="delete"
                         onClick={() => {
-                          deleteHandler(category);
+                          deleteHandler(facility);
                         }}
                       >
                         <DeleteOutlineIcon className="text-white/60" />
@@ -305,4 +306,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default RoomFacility;
