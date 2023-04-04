@@ -10,6 +10,7 @@ import Category from "../pages/resort/Category";
 import ResortDetails from "../pages/resort/ResortDetails";
 import RoomType from "../pages/resort/room/RoomType";
 import RoomFacility from "../pages/resort/room/RoomFacility";
+import WalletPage from "../pages/user/WalletPage";
 
 const User = () => {
   return (
@@ -26,6 +27,7 @@ const User = () => {
             <Route path="/resorts/room/facility" element={<RoomFacility />} />
             <Route path="/resorts/room/type" element={<RoomType />} />
             <Route path="/resorts/details" element={<ResortDetails />} />
+            <Route path="/wallet" element={<WalletPage />} />
           </Routes>
         </div>
       </div>

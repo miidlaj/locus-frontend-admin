@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import { Email, DashboardCustomize } from "@mui/icons-material";
+import { DashboardCustomize, Wallet } from "@mui/icons-material";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -42,9 +42,9 @@ const DashNav = () => {
   const Menus = [
     { title: "Dashboard", icon: <DashboardCustomize />, link: "/dashboard" },
     { title: "Resort", icon: <ApartmentIcon />, link: "/resorts" },
-    { title: "Message", icon: <Email />, link: "/message" },
+    { title: "Message", icon: <Wallet />, link: "/wallet" },
   ];
-
+  
   const Controlls = [
     { title: "Settings", icon: <SettingsIcon />, link: "/settings" },
     { title: "Logout", icon: <LogoutIcon />, link: "/logout" },
